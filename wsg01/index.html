@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="manifest" href="manifest.json">
+	<title>PWA</title>
+<style>
+html {
+  height: 100%;
+  touch-action: manipulation;
+}
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+header {
+  width: 100%;
+  background: #ccdd33;
+}
+footer {
+  position: sticky;
+  top: 100vh;
+  width: 100%;
+  background: #44aa33;
+}
+</style>
+</head>
+<body>
+<header>
+ヘッダ
+</header>
+<main>
+コンテンツ
+<a href="http://160.248.184.96/index.php">ジャンプ</a>
+    <button id="confirm">通知許可の確認</button>
+    <button id="send">通知を送信</button>
+</main>
+<footer>
+フッタ
+</footer>
+<div id="app">
+</div>
+<script>
+// service workerの登録関係
+    <script>
+      window.addEventListener('load', () => {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker
+            .register('sw.js')
+            .then(registration => console.log('registered', registration))
+            .catch(error => console.log('error', error));
+        }
+      });
+
+      document
+        .getElementById('confirm')
+        .addEventListener('click', onClickConfirm);
+
+      document.getElementById('send').addEventListener('click', onClickSend);
+
+      function onClickConfirm() {
+        if (!('Notification' in window)) {
+          alert('このブラウザはプッシュ通知に対応してません。。。');
+          return;
+        }
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') alert('通知の許可がもらえました');
+          if (permission === 'denied') alert('通知の許可がもらえませんでした');
+        });
+      }
+
+      function onClickSend() {
+        if (!('Notification' in window)) {
+          alert('このブラウザはプッシュ通知に対応してません。。。');
+          return;
+        }
+
+        const permission = Notification.permission;
+        if (permission === 'granted') {
+          navigator.serviceWorker.ready.then(registration => {
+            registration.active.postMessage('hello!!!');
+          });
+        } else {
+          alert('通知の許可がもらえませんよ');
+        }
+      }
+    </script>
+</script>
+</body>
+</html>
