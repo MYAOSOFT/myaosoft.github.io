@@ -44,23 +44,19 @@ footer {
 </div>
 <script>
 // service workerの登録関係
-    <script>
-      window.addEventListener('load', () => {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker
-            .register('sw.js')
-            .then(registration => console.log('registered', registration))
-            .catch(error => console.log('error', error));
-        }
-      });
+window.addEventListener('load', () => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('sw.js')
+      .then(registration => console.log('registered', registration))
+      .catch(error => console.log('error', error));
+  }
+});
 
-      document
-        .getElementById('confirm')
-        .addEventListener('click', onClickConfirm);
+document.getElementById('confirm').addEventListener('click', onClickConfirm);
+document.getElementById('send').addEventListener('click', onClickSend);
 
-      document.getElementById('send').addEventListener('click', onClickSend);
-
-      function onClickConfirm() {
+function onClickConfirm() {
         if (!('Notification' in window)) {
           alert('このブラウザはプッシュ通知に対応してません。。。');
           return;
@@ -86,7 +82,6 @@ footer {
           alert('通知の許可がもらえませんよ');
         }
       }
-    </script>
 </script>
 </body>
 </html>
